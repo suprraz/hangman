@@ -85,7 +85,7 @@ paths:
           in: body
           required: true
           schema:
-            $ref: "#/definitions/Game"
+            $ref: "#/definitions/Guess"
       responses:
         "200":
           description: Success
@@ -132,32 +132,29 @@ definitions:
               type: string
             progress:
               type: string
-            guesses:
+            attempts:
               type: number
   GetGameResponse:
     required:
       - id
       - progress
-      - guesses
+      - attempts
     properties:
       id:
         type: string
       progress: 
         type: string
-      guesses:
+      attempts:
         type: number
-  Game:
+  Guess:
     type: object
     properties:
-      progress:
+      word:
         type: string
-        description: task object name
-      guesses:
-        type: number
-        description: task description
-    required:
-      - progress
-      - guesses
+        description: guessed solution word
+      letter:
+        type: string
+        description: letter to guess next
   GeneralResponse:
     type: object
     properties:

@@ -11,7 +11,7 @@ module.exports = function() {
     save(game) {
       game.id = crypto.randomBytes(20).toString('hex'); // fast enough for our purpose
       this.gameList.push(game);
-      return game.id;
+      return game;
     },
     /*
      * Retrieve a game with a given id or return all the games if the id is undefined.
@@ -20,7 +20,7 @@ module.exports = function() {
       if(id) {
         return this.gameList.find(element => {
             return element.id === id;
-      });
+        });
       }else {
         return this.gameList;
       }
@@ -48,8 +48,8 @@ module.exports = function() {
       });
 
       if(gameIndex !== -1) {
-        this.gameList[gameIndex].title = game.title;
-        this.gameList[gameIndex].year = game.year;
+        this.gameList[gameIndex].progress = game.progress;
+        this.gameList[gameIndex].attempts = game.attempts;
         return 1;
       }else {
         return 0;

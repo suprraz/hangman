@@ -1,6 +1,7 @@
 'use strict';
 // Include our "db"
 var db = require('../../config/db')();
+var utils = require('../helpers/utils')();
 var words = require("an-array-of-english-words");
 
 // Exports all the functions to perform on the db
@@ -16,18 +17,20 @@ function save(req, res, next) {
 
   randomWord = "cartoon";  //todo get this randomly from words list
 
-  var gameId =  db.save({
-      word: randomWord
+  var game =  db.save({
+      word: randomWord,
+      progress: randomWord.replace(/[a-zA-Z]/g, "_"),
+      attempts: 0
   });
 
-  res.json({success: 1, id: gameId, description: "Game added to the list!"});
+  res.json({success: 1, game: utils.obfuscate(game), description: "Game added to the list!"});
 }
 //GET /game/{id} operationId
 function getOne(req, res, next) {
   var id = req.swagger.params.id.value; //req.swagger contains the path parameters
   var game = db.find(id);
   if(game) {
-    res.json(game);
+    res.json(utils.obfuscate(game));
   }else {
     res.status(204).send();
   }
@@ -35,13 +38,39 @@ function getOne(req, res, next) {
 //PUT /game/{id} operationId
 function update(req, res, next) {
   var id = req.swagger.params.id.value; //req.swagger contains the path parameters
-  var game = req.body;
+  var guess = req.body;
+
+  var gameRef = db.find(id);
+  if(!gameRef) {
+    return res.status(404).send();
+  }
+  console.log(gameRef);
+  var game = Object.assign({}, gameRef);
+
+  if(guess.word) {
+    //solving the puzzle
+    game.attempts++;
+
+    if(guess.word === game.word) {
+      game.progress = game.word;
+    }
+
+  } else if (guess.letter) {
+    // guessing a letter
+    game.attempts++;
+
+    for(var i = 0; i < game.word.length; i++) {
+      if(game.word[i] === guess.letter) {
+        game.progress = game.progress.substr(0,i) + guess.letter + game.progress.substr(i+1);
+      }
+    }
+  }
+
   if(db.update(id, game)){
-    res.json({success: 1, description: "Game updated!"});
+    res.json({success: 1, game: utils.obfuscate(game), description: "Game updated!"});
   }else{
     res.status(204).send();
   }
-
 }
 //DELETE /game/{id} operationId
 function delGame(req, res, next) {
