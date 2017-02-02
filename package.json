@@ -8,6 +8,7 @@
   "license": "",
   "main": "app.js",
   "dependencies": {
+    "an-array-of-english-words": "^1.2.0",
     "crypto": "0.0.3",
     "express": "^4.12.3",
     "require.js": "^1.0.0",
@@ -19,6 +20,7 @@
   },
   "scripts": {
     "start": "node app.js",
-    "test": "swagger project test"
+    "test": "swagger project test",
+    "editor": "swagger project edit"
   }
 }

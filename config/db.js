@@ -11,7 +11,7 @@ module.exports = function() {
     save(game) {
       game.id = crypto.randomBytes(20).toString('hex'); // fast enough for our purpose
       this.gameList.push(game);
-      return 1;
+      return game.id;
     },
     /*
      * Retrieve a game with a given id or return all the games if the id is undefined.

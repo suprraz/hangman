@@ -1,6 +1,8 @@
 'use strict';
 // Include our "db"
 var db = require('../../config/db')();
+var words = require("an-array-of-english-words");
+
 // Exports all the functions to perform on the db
 module.exports = {getAll, save, getOne, update, delGame};
 
@@ -10,7 +12,15 @@ function getAll(req, res, next) {
 }
 //POST /game operationId
 function save(req, res, next) {
-  res.json({success: db.save(req.body), description: "Game added to the list!"});
+  var randomWord = words[Math.floor(Math.random()*words.length)];
+
+  randomWord = "cartoon";  //todo get this randomly from words list
+
+  var gameId =  db.save({
+      word: randomWord
+  });
+
+  res.json({success: 1, id: gameId, description: "Game added to the list!"});
 }
 //GET /game/{id} operationId
 function getOne(req, res, next) {

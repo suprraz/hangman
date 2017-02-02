@@ -37,14 +37,9 @@ paths:
     post:
       operationId: save
       description: add a new game to the list
+      consumes:
+        - application/octet-stream
       # game info to be stored
-      parameters:
-        - name: title
-          description: Game properties
-          in: body
-          required: true
-          schema:
-            $ref: "#/definitions/Game"
       responses:
         "200":
           description: Success
@@ -135,34 +130,34 @@ definitions:
           properties:
             id:
               type: string
-            title:
+            progress:
               type: string
-            year:
+            guesses:
               type: number
   GetGameResponse:
     required:
       - id
-      - title
-      - year
+      - progress
+      - guesses
     properties:
       id:
         type: string
-      title: 
+      progress: 
         type: string
-      year:
+      guesses:
         type: number
   Game:
     type: object
     properties:
-      title:
+      progress:
         type: string
         description: task object name
-      year:
+      guesses:
         type: number
         description: task description
     required:
-      - title
-      - year
+      - progress
+      - guesses
   GeneralResponse:
     type: object
     properties:
