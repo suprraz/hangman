@@ -1,1 +1,18 @@
-# Skeleton project for Swagger
+## Hangman Server
+
+
+Installation:
+
+```
+npm install
+```
+
+Run:
+
+
+```
+npm run start
+```
+
+
+
