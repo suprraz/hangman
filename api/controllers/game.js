@@ -20,7 +20,7 @@ function save(req, res, next) {
   var game =  db.save({
       word: randomWord,
       progress: randomWord.replace(/[a-zA-Z]/g, "_"),
-      attempts: 0
+      mistakes: 0
   });
 
   res.json({success: 1, game: utils.obfuscate(game), description: "Game added to the list!"});
@@ -49,20 +49,27 @@ function update(req, res, next) {
 
   if(guess.word) {
     //solving the puzzle
-    game.attempts++;
 
     if(guess.word === game.word) {
       game.progress = game.word;
+    } else {
+      game.mistakes++;
     }
 
   } else if (guess.letter) {
     // guessing a letter
-    game.attempts++;
+
+    var foundLetter = false;
 
     for(var i = 0; i < game.word.length; i++) {
       if(game.word[i] === guess.letter) {
         game.progress = game.progress.substr(0,i) + guess.letter + game.progress.substr(i+1);
+        foundLetter = true;
       }
+    }
+
+    if(!foundLetter) {
+      game.mistakes++;
     }
   }
 

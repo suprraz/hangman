@@ -49,7 +49,7 @@ module.exports = function() {
 
       if(gameIndex !== -1) {
         this.gameList[gameIndex].progress = game.progress;
-        this.gameList[gameIndex].attempts = game.attempts;
+        this.gameList[gameIndex].mistakes = game.mistakes;
         return 1;
       }else {
         return 0;

@@ -132,19 +132,19 @@ definitions:
               type: string
             progress:
               type: string
-            attempts:
+            mistakes:
               type: number
   GetGameResponse:
     required:
       - id
       - progress
-      - attempts
+      - mistakes
     properties:
       id:
         type: string
       progress: 
         type: string
-      attempts:
+      mistakes:
         type: number
   Guess:
     type: object
