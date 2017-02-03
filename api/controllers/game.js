@@ -15,7 +15,8 @@ function getAll(req, res, next) {
 function save(req, res, next) {
   var randomWord = words[Math.floor(Math.random()*words.length)];
 
-  randomWord = "cartoon";  //todo get this randomly from words list
+  // randomWord = "cartoon";  //uncomment this to overwrite the word
+  console.log("Word to guess is : " + randomWord);
 
   var game =  db.save({
       word: randomWord,
